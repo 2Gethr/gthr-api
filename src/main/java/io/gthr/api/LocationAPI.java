@@ -1,6 +1,6 @@
 package io.gthr.api;
 
-import io.gthr.models.Location;
+import io.gthr.entities.Location;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;

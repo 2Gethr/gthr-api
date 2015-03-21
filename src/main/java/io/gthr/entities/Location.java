@@ -1,16 +1,20 @@
-package io.gthr.models;
+package io.gthr.entities;
 
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+
+@Entity
 public class Location {
-  private int id;
-  private String name;
-  private double lng;
-  private double lat;
+  @Id Long id;
+  String name;
+  double lng;
+  double lat;
 
-  public int getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
