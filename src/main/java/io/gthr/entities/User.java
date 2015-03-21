@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.api.server.spi.config.AnnotationBoolean;
 import com.google.api.server.spi.config.ApiResourceProperty;
-import com.googlecode.objectify.Key;
+import com.google.appengine.api.datastore.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
@@ -12,8 +12,7 @@ import com.googlecode.objectify.annotation.Id;
 public class User {
   @Id String id;
   String name;
-  @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
-  List<Key<Location>> subscriptions;
+  List<Key> subscriptions;
 
   private User() {}
 
@@ -38,11 +37,11 @@ public class User {
     this.id = id;
   }
 
-  public List<Key<Location>> getSubscriptions() {
+  public List<Key> getSubscriptions() {
     return subscriptions;
   }
 
-  public void setSubscriptions(List<Key<Location>> subscriptions) {
+  public void setSubscriptions(List<Key> subscriptions) {
     this.subscriptions = subscriptions;
   }
 }

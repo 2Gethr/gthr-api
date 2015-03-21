@@ -3,6 +3,7 @@ package io.gthr.repositories;
 import com.googlecode.objectify.ObjectifyService;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import io.gthr.entities.Location;
 import io.gthr.entities.User;
 
 public class UserRepository {

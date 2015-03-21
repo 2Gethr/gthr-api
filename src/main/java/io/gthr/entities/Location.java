@@ -10,6 +10,14 @@ public class Location {
   double lng;
   double lat;
 
+  private Location() {}
+
+  public Location(String name, double lng, double lat) {
+    this.name = name;
+    this.lng = lng;
+    this.lat = lat;
+  }
+
   public Long getId() {
     return id;
   }
