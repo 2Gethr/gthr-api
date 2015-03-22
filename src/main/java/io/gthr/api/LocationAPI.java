@@ -1,14 +1,13 @@
 package io.gthr.api;
 
 import io.gthr.entities.Location;
-
-import com.google.api.server.spi.config.Api;
-import com.google.api.server.spi.config.ApiMethod;
-import com.google.api.server.spi.config.ApiNamespace;
-import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 import io.gthr.repositories.LocationRepository;
 
 import javax.inject.Named;
+
+import com.google.api.server.spi.config.Api;
+import com.google.api.server.spi.config.ApiMethod;
+import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 
 @Api(
   name = "gthr",
@@ -18,11 +17,11 @@ public class LocationAPI {
 
   @ApiMethod(
     name = "locations.get",
-    path = "locations/{id}",
+    path = "locations/{name}",
     httpMethod = HttpMethod.GET
   )
-  public Location get(@Named("id") Long id) {
-    return LocationRepository.instance().get(id);
+  public Location get(@Named("name") String name) {
+    return LocationRepository.instance().get(name);
   }
 
   @ApiMethod(

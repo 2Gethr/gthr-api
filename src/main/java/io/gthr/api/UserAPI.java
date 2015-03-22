@@ -1,14 +1,13 @@
 package io.gthr.api;
 
 import io.gthr.entities.User;
-
-import com.google.api.server.spi.config.Api;
-import com.google.api.server.spi.config.ApiMethod;
-import com.google.api.server.spi.config.ApiNamespace;
-import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 import io.gthr.repositories.UserRepository;
 
 import javax.inject.Named;
+
+import com.google.api.server.spi.config.Api;
+import com.google.api.server.spi.config.ApiMethod;
+import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 
 @Api(
   name = "gthr",
@@ -18,11 +17,13 @@ public class UserAPI {
 
   @ApiMethod(
     name = "users.get",
-    path = "users/{id}",
+    path = "users/{email}",
     httpMethod = HttpMethod.GET
   )
-  public User getUser(@Named("id") String id) {
-    return UserRepository.instance().get(id);
+  public User get(
+    @Named("email") String email
+  ) {
+    return UserRepository.instance().get(email);
   }
 
   @ApiMethod(
@@ -30,10 +31,34 @@ public class UserAPI {
     path = "users",
     httpMethod = HttpMethod.POST
   )
-  public User createUser(
-    @Named("id") String id,
+  public User create(
+    @Named("email") String email,
     @Named("name") String name
   ) {
-    return UserRepository.instance().create(new User(id, name));
+    return UserRepository.instance().create(new User(email, name));
   };
+
+  @ApiMethod(
+    name = "users.subscribe",
+    path = "users/{email}/subscriptions/{locationName}",
+    httpMethod = HttpMethod.POST
+  )
+  public User subscribe(
+    @Named("email") String email,
+    @Named("locationName") String locationName
+  ) {
+    return UserRepository.instance().subscribe(email, locationName);
+  }
+
+  @ApiMethod(
+    name = "users.unsubscribe",
+    path = "users/{email}/subscriptions/{locationName}",
+    httpMethod = HttpMethod.DELETE
+  )
+  public User unsubscribe(
+    @Named("email") String email,
+    @Named("locationName") String locationName
+  ) {
+    return UserRepository.instance().unsubscribe(email, locationName);
+  }
 }

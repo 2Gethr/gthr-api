@@ -16,4 +16,8 @@ You can acces the local API explorer here :
 
 http://localhost:9090/_ah/api/explorer
 
+And local Datastore here :
+
+http://localhost:9090/_ah/admin
+
 Enjoy ! :dancers:

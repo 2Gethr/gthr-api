@@ -17,7 +17,7 @@ public class LocationRepository {
     return repo;
   }
 
-  public Location get(Long id) {
+  public Location get(String id) {
     return ofy().load().type(Location.class).id(id).now();
   }
 

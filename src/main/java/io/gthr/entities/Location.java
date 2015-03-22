@@ -5,8 +5,7 @@ import com.googlecode.objectify.annotation.Id;
 
 @Entity
 public class Location {
-  @Id Long id;
-  String name;
+  @Id String name;
   double lng;
   double lat;
 
@@ -16,14 +15,6 @@ public class Location {
     this.name = name;
     this.lng = lng;
     this.lat = lat;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
   }
 
   public String getName() {

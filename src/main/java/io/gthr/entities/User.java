@@ -1,23 +1,20 @@
 package io.gthr.entities;
 
-import java.util.List;
+import java.util.ArrayList;
 
-import com.google.api.server.spi.config.AnnotationBoolean;
-import com.google.api.server.spi.config.ApiResourceProperty;
-import com.google.appengine.api.datastore.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
 @Entity
 public class User {
-  @Id String id;
+  @Id String email;
   String name;
-  List<Key> subscriptions;
+  ArrayList<String> subscriptions = new ArrayList<String>();
 
   private User() {}
 
-  public User(String id, String name) {
-    this.id = id;
+  public User(String email, String name) {
+    this.email = email;
     this.name = name;
   }
 
@@ -29,19 +26,19 @@ public class User {
     this.name = name;
   }
 
-  public String getId() {
-    return id;
+  public String getEmail() {
+    return email;
   }
 
-  public void setId(String id) {
-    this.id = id;
+  public void setEmail(String email) {
+    this.email = email;
   }
 
-  public List<Key> getSubscriptions() {
+  public ArrayList<String> getSubscriptions() {
     return subscriptions;
   }
 
-  public void setSubscriptions(List<Key> subscriptions) {
+  public void setSubscriptions(ArrayList<String> subscriptions) {
     this.subscriptions = subscriptions;
   }
 }

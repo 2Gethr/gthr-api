@@ -3,7 +3,6 @@ package io.gthr.repositories;
 import com.googlecode.objectify.ObjectifyService;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import io.gthr.entities.Location;
 import io.gthr.entities.User;
 
 public class UserRepository {
@@ -15,6 +14,7 @@ public class UserRepository {
 
   public static synchronized UserRepository instance() {
     if (repo == null) repo = new UserRepository();
+
     return repo;
   }
 
@@ -24,6 +24,25 @@ public class UserRepository {
 
   public User create(User user) {
     ofy().save().entity(user).now();
+
+    return user;
+  }
+
+  public User subscribe(String userId, String locationName) {
+    User user = ofy().load().type(User.class).id(userId).now();
+    user.getSubscriptions().add(locationName);
+
+    ofy().save().entity(user).now();
+
+    return user;
+  }
+
+  public User unsubscribe(String userId, String locationName) {
+    User user = ofy().load().type(User.class).id(userId).now();
+    user.getSubscriptions().remove(locationName);
+
+    ofy().save().entity(user).now();
+
     return user;
   }
 }
