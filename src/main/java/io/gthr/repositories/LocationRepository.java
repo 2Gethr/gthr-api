@@ -1,9 +1,9 @@
 package io.gthr.repositories;
 
+import io.gthr.entities.Location;
+
 import com.googlecode.objectify.ObjectifyService;
 import static com.googlecode.objectify.ObjectifyService.ofy;
-
-import io.gthr.entities.Location;
 
 public class LocationRepository {
   private static LocationRepository repo = null;
@@ -12,6 +12,11 @@ public class LocationRepository {
     ObjectifyService.register(Location.class);
   }
 
+  /**
+   * Get singleton instance
+   *
+   * @return The LocationRepository instance
+   */
   public static synchronized LocationRepository instance() {
     if (repo == null) repo = new LocationRepository();
 

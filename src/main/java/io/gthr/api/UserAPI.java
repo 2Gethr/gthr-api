@@ -1,9 +1,9 @@
 package io.gthr.api;
 
+import javax.inject.Named;
+
 import io.gthr.entities.User2Gethr;
 import io.gthr.repositories.UserRepository;
-
-import javax.inject.Named;
 
 import com.google.appengine.api.users.User;
 import com.google.api.server.spi.config.Api;
@@ -15,7 +15,7 @@ import com.google.api.server.spi.response.UnauthorizedException;
   name = "gthr",
   version = "v1",
   scopes = {Constants.EMAIL_SCOPE},
-  clientIds = {Constants.WEB_CLIENT_ID}
+  clientIds = {Constants.WEB_CLIENT_ID, com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID}
 )
 public class UserAPI {
 
