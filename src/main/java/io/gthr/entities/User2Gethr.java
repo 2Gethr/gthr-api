@@ -6,14 +6,14 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
 @Entity
-public class User {
+public class User2Gethr {
   @Id String email;
   String name;
   ArrayList<String> subscriptions = new ArrayList<String>();
 
-  private User() {}
+  private User2Gethr() {}
 
-  public User(String email, String name) {
+  public User2Gethr(String email, String name) {
     this.email = email;
     this.name = name;
   }
