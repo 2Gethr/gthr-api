@@ -1,6 +1,8 @@
 package io.gthr.repositories;
 
-import io.gthr.entities.User2Gethr;
+import io.gthr.entities.UserGthr;
+
+import com.google.appengine.api.users.User;
 
 import com.googlecode.objectify.ObjectifyService;
 import static com.googlecode.objectify.ObjectifyService.ofy;
@@ -9,7 +11,7 @@ public class UserRepository {
   private static UserRepository repo = null;
 
   static {
-    ObjectifyService.register(User2Gethr.class);
+    ObjectifyService.register(UserGthr.class);
   }
 
   /**
@@ -26,50 +28,53 @@ public class UserRepository {
   /**
    * Retrieve an user
    *
-   * @param email User2Gethr's email
+   * @param id User identifier
    *
    * @return The wanted user
    */
-  public User2Gethr get(String email) {
-    return ofy().load().type(User2Gethr.class).id(email).now();
+  public UserGthr get(Long id) {
+    return ofy().load().type(UserGthr.class).id(id).now();
   }
 
   /**
-   * Create an user
+   * Create an user (if not created yet)
    *
-   * @param user The user2Gethr to create
+   * @param user The UserGthr to create
    *
-   * @return The created user2Gethr
+   * @return The created UserGthr
    */
-  public User2Gethr create(User2Gethr user) {
-    ofy().save().entity(user).now();
+  public UserGthr create(UserGthr user) {
+    UserGthr existingUser = getExistingUser(user.getUser());
 
-    return user;
+    if (existingUser == null) {
+      ofy().save().entity(user).now();
+      return user;
+    }
+
+    return existingUser;
+  }
+
+  /**
+   * Get the existing UserGthr for the authenticated user given
+   *
+   * @param user The authenticated user
+   *
+   * @return The existing UserGthr (or null otherwise)
+   */
+  public UserGthr getExistingUser(User user) {
+    return ofy().load().type(UserGthr.class).filter("user", user).first().now();
   }
 
   /**
    * Delete an user
    *
-   * @param userEmail The user's email
+   * @param id User identifier
    *
    * @return The deleted user
    */
-  public User2Gethr delete(String userEmail) {
-    User2Gethr user = get(userEmail);
+  public UserGthr delete(Long id) {
+    UserGthr user = get(id);
     ofy().delete().entity(user);
-
-    return user;
-  }
-
-  /**
-   * Update an user
-   *
-   * @param user New user data
-   *
-   * @return The updated user
-   */
-  public User2Gethr update(User2Gethr user) {
-    ofy().save().entity(user).now();
 
     return user;
   }
@@ -77,34 +82,36 @@ public class UserRepository {
   /**
    * Subscribe an user to the given location
    *
-   * @param userEmail    User2Gethr's email
-   * @param locationName Location's name
+   * @param id         User identifier
+   * @param locationId Location's name
    *
    * @return The user
    */
-  public User2Gethr subscribe(String userEmail, String locationName) {
-    User2Gethr user2Gethr = ofy().load().type(User2Gethr.class).id(userEmail).now();
-    user2Gethr.getSubscriptions().add(locationName);
+  public UserGthr subscribe(Long id, Long locationId) {
+    // @todo Check if locationId refers to an actual location
+    // @todo Prevent subscription to locations already subscribed to
+    UserGthr userGthr = ofy().load().type(UserGthr.class).id(id).now();
+    userGthr.getSubscriptions().add(locationId);
 
-    ofy().save().entity(user2Gethr).now();
+    ofy().save().entity(userGthr).now();
 
-    return user2Gethr;
+    return userGthr;
   }
 
   /**
    * Unsubscribe an user to the given location
    *
-   * @param userEmail    User2Gethr's email
-   * @param locationName Location's name
+   * @param id         User identifier
+   * @param locationId Location's name
    *
    * @return The user
    */
-  public User2Gethr unsubscribe(String userEmail, String locationName) {
-    User2Gethr user2Gethr = ofy().load().type(User2Gethr.class).id(userEmail).now();
-    user2Gethr.getSubscriptions().remove(locationName);
+  public UserGthr unsubscribe(Long id, Long locationId) {
+    UserGthr userGthr = ofy().load().type(UserGthr.class).id(id).now();
+    userGthr.getSubscriptions().remove(locationId);
 
-    ofy().save().entity(user2Gethr).now();
+    ofy().save().entity(userGthr).now();
 
-    return user2Gethr;
+    return userGthr;
   }
 }

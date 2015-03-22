@@ -21,16 +21,16 @@ public class LocationAPI {
 
   @ApiMethod(
     name = "locations.get",
-    path = "locations/{name}",
+    path = "locations/{id}",
     httpMethod = HttpMethod.GET
   )
   public Location get(
-    @Named("name") String name,
+    @Named("id") Long id,
     User user
   ) throws UnauthorizedException {
     if (user == null) throw new UnauthorizedException("#loginrequired");
 
-    return LocationRepository.instance().get(name);
+    return LocationRepository.instance().get(id);
   }
 
   @ApiMethod(
@@ -51,15 +51,15 @@ public class LocationAPI {
 
   @ApiMethod(
     name = "locations.delete",
-    path = "locations/{name}",
+    path = "locations/{id}",
     httpMethod = HttpMethod.DELETE
   )
   public Location delete(
-    @Named("name") String name,
+    @Named("id") Long id,
     User user
   ) throws UnauthorizedException {
     if (user == null) throw new UnauthorizedException("#loginrequired");
 
-    return LocationRepository.instance().delete(name);
+    return LocationRepository.instance().delete(id);
   }
 }

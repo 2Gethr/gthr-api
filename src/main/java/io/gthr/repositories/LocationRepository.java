@@ -26,12 +26,12 @@ public class LocationRepository {
   /**
    * Retrieve a location
    *
-   * @param name Location's name
+   * @param id Location's identifier
    *
    * @return The wanted location
    */
-  public Location get(String name) {
-    return ofy().load().type(Location.class).id(name).now();
+  public Location get(Long id) {
+    return ofy().load().type(Location.class).id(id).now();
   }
 
   /**
@@ -42,6 +42,7 @@ public class LocationRepository {
    * @return The created location
    */
   public Location create(Location location) {
+    // @todo Prevent location with same name
     ofy().save().entity(location).now();
 
     return location;
@@ -50,12 +51,12 @@ public class LocationRepository {
   /**
    * Delete a location
    *
-   * @param locationName The location' name to delete
+   * @param id The location' name to delete
    *
    * @return The deleted location
    */
-  public Location delete(String locationName) {
-    Location location = get(locationName);
+  public Location delete(Long id) {
+    Location location = get(id);
     ofy().delete().entity(location).now();
 
     return location;

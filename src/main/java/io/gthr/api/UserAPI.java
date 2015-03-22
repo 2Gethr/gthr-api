@@ -2,7 +2,7 @@ package io.gthr.api;
 
 import javax.inject.Named;
 
-import io.gthr.entities.User2Gethr;
+import io.gthr.entities.UserGthr;
 import io.gthr.repositories.UserRepository;
 
 import com.google.appengine.api.users.User;
@@ -21,16 +21,16 @@ public class UserAPI {
 
   @ApiMethod(
     name = "users.get",
-    path = "users/{email}",
+    path = "users/{id}",
     httpMethod = HttpMethod.GET
   )
-  public User2Gethr get(
-    @Named("email") String email,
+  public UserGthr get(
+    @Named("id") Long id,
     User user
   ) throws UnauthorizedException {
     if (user == null) throw new UnauthorizedException("#loginrequired");
 
-    return UserRepository.instance().get(email);
+    return UserRepository.instance().get(id);
   }
 
   @ApiMethod(
@@ -38,72 +38,53 @@ public class UserAPI {
     path = "users",
     httpMethod = HttpMethod.POST
   )
-  public User2Gethr create(
-    @Named("email") String email,
-    @Named("name") String name,
-    User user
-  ) throws UnauthorizedException {
+  public UserGthr create(User user) throws UnauthorizedException {
     if (user == null) throw new UnauthorizedException("#loginrequired");
 
-    return UserRepository.instance().create(new User2Gethr(email, name));
+    return UserRepository.instance().create(new UserGthr(user));
   }
 
   @ApiMethod(
     name = "users.delete",
-    path = "users/{email}",
+    path = "users/{id}",
     httpMethod = HttpMethod.DELETE
   )
-  public User2Gethr delete(
-    @Named("email") String email,
+  public UserGthr delete(
+    @Named("id") Long id,
     User user
   ) throws UnauthorizedException {
     if (user == null) throw new UnauthorizedException("#loginrequired");
 
-    return UserRepository.instance().delete(email);
-  }
-
-  @ApiMethod(
-    name = "users.update",
-    path = "users",
-    httpMethod = HttpMethod.PUT
-  )
-  public User2Gethr update(
-    @Named("email") String email,
-    @Named("name") String name,
-    User user
-  ) throws UnauthorizedException {
-    if (user == null) throw new UnauthorizedException("#loginrequired");
-
-    return UserRepository.instance().update(new User2Gethr(email, name));
+    return UserRepository.instance().delete(id);
   }
 
   @ApiMethod(
     name = "users.subscribe",
-    path = "users/{email}/subscriptions/{locationName}",
+    path = "users/{id}/subscriptions/{locationId}",
     httpMethod = HttpMethod.POST
   )
-  public User2Gethr subscribe(
-    @Named("email") String email,
-    @Named("locationName") String locationName,
+  public UserGthr subscribe(
+    @Named("id") Long id,
+    @Named("locationId") Long locationId,
     User user
   ) throws UnauthorizedException {
     if (user == null) throw new UnauthorizedException("#loginrequired");
 
-    return UserRepository.instance().subscribe(email, locationName);
+    return UserRepository.instance().subscribe(id, locationId);
   }
 
   @ApiMethod(
     name = "users.unsubscribe",
-    path = "users/{email}/subscriptions/{locationName}",
+    path = "users/{id}/subscriptions/{locationId}",
     httpMethod = HttpMethod.DELETE
   )
-  public User2Gethr unsubscribe(
-    @Named("email") String email,
-    @Named("locationName") String locationName,
+  public UserGthr unsubscribe(
+    @Named("id") Long id,
+    @Named("locationId") Long locationId,
     User user
   ) throws UnauthorizedException {
     if (user == null) throw new UnauthorizedException("#loginrequired");
 
-    return UserRepository.instance().unsubscribe(email, locationName);
+    return UserRepository.instance().unsubscribe(id, locationId);
   }
 }
