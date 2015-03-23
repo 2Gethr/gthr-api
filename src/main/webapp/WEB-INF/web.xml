@@ -4,7 +4,7 @@
   <servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
   <init-param>
     <param-name>services</param-name>
-    <param-value>io.gthr.api.UserAPI</param-value>
+    <param-value>io.gthr.api.UserAPI,io.gthr.api.LocationAPI</param-value>
   </init-param>
 </servlet>
 <welcome-file-list>

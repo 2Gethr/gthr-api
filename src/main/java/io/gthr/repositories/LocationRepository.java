@@ -42,7 +42,12 @@ public class LocationRepository {
    * @return The created location
    */
   public Location create(Location location) {
-    // @todo Prevent location with same name
+    Location existingLocation = getByName(location.getName());
+
+    if (existingLocation != null) {
+      return existingLocation;
+    }
+
     ofy().save().entity(location).now();
 
     return location;
@@ -51,7 +56,7 @@ public class LocationRepository {
   /**
    * Delete a location
    *
-   * @param id The location' name to delete
+   * @param id The location's identifier to delete
    *
    * @return The deleted location
    */
@@ -60,5 +65,16 @@ public class LocationRepository {
     ofy().delete().entity(location).now();
 
     return location;
+  }
+
+  /**
+   * Get an existing location by its name
+   *
+   * @param name Location's name
+   *
+   * @return The existing location (or null otherwise)
+   */
+  public Location getByName(String name) {
+    return ofy().load().type(Location.class).filter("name", name).first().now();
   }
 }

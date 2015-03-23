@@ -1,8 +1,10 @@
 package io.gthr.repositories;
 
+import io.gthr.entities.Location;
 import io.gthr.entities.UserGthr;
 
 import com.google.appengine.api.users.User;
+import com.google.api.server.spi.response.NotFoundException;
 
 import com.googlecode.objectify.ObjectifyService;
 import static com.googlecode.objectify.ObjectifyService.ofy;
@@ -87,12 +89,21 @@ public class UserRepository {
    *
    * @return The user
    */
-  public UserGthr subscribe(Long id, Long locationId) {
-    // @todo Check if locationId refers to an actual location
-    // @todo Prevent subscription to locations already subscribed to
-    UserGthr userGthr = ofy().load().type(UserGthr.class).id(id).now();
-    userGthr.getSubscriptions().add(locationId);
+  public UserGthr subscribe(Long id, Long locationId) throws NotFoundException {
+    Location location = LocationRepository.instance().get(locationId);
 
+    if (location == null) {
+      throw new NotFoundException("No location with id " + locationId);
+    }
+
+    UserGthr userGthr = ofy().load().type(UserGthr.class).id(id).now();
+
+    // Prevent subscription to locations already subscribed to
+    if (userGthr.getSubscriptions().contains(locationId)) {
+      return userGthr;
+    }
+
+    userGthr.getSubscriptions().add(locationId);
     ofy().save().entity(userGthr).now();
 
     return userGthr;

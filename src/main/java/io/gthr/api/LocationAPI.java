@@ -6,6 +6,7 @@ import io.gthr.entities.Location;
 import io.gthr.repositories.LocationRepository;
 
 import com.google.appengine.api.users.User;
+
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiMethod.HttpMethod;

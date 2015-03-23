@@ -6,10 +6,12 @@ import io.gthr.entities.UserGthr;
 import io.gthr.repositories.UserRepository;
 
 import com.google.appengine.api.users.User;
+
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 import com.google.api.server.spi.response.UnauthorizedException;
+import com.google.api.server.spi.response.NotFoundException;
 
 @Api(
   name = "gthr",
@@ -67,7 +69,7 @@ public class UserAPI {
     @Named("id") Long id,
     @Named("locationId") Long locationId,
     User user
-  ) throws UnauthorizedException {
+  ) throws UnauthorizedException, NotFoundException {
     if (user == null) throw new UnauthorizedException("#loginrequired");
 
     return UserRepository.instance().subscribe(id, locationId);

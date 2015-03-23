@@ -69,4 +69,8 @@ And local Datastore here :
 
 http://localhost:9090/_ah/admin
 
+To deploy on App Engine :
+
+`mvn appengine:update`
+
 Enjoy ! :dancers:
