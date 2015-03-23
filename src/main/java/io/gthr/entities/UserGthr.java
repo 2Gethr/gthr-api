@@ -5,13 +5,15 @@ import java.util.ArrayList;
 import com.google.appengine.api.users.User;
 
 import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Index;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Ignore;
 
 @Entity
 public class UserGthr {
   @Id Long id;
   @Index User user;
+  @Ignore Boolean firstVisit;
   ArrayList<Long> subscriptions = new ArrayList<>();
 
   private UserGthr() {}
@@ -24,23 +26,39 @@ public class UserGthr {
     return id;
   }
 
-  public void setId(Long id) {
+  public UserGthr setId(Long id) {
     this.id = id;
+
+    return this;
   }
 
   public User getUser() {
     return user;
   }
 
-  public void setUser(User user) {
+  public UserGthr setUser(User user) {
     this.user = user;
+
+    return this;
   }
 
   public ArrayList<Long> getSubscriptions() {
     return subscriptions;
   }
 
-  public void setSubscriptions(ArrayList<Long> subscriptions) {
+  public UserGthr setSubscriptions(ArrayList<Long> subscriptions) {
     this.subscriptions = subscriptions;
+
+    return this;
+  }
+
+  public Boolean getFirstVisit() {
+    return firstVisit;
+  }
+
+  public UserGthr setFirstVisit(Boolean firstVisit) {
+    this.firstVisit = firstVisit;
+
+    return this;
   }
 }

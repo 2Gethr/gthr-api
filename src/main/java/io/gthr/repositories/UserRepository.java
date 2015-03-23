@@ -50,10 +50,10 @@ public class UserRepository {
 
     if (existingUser == null) {
       ofy().save().entity(user).now();
-      return user;
+      return user.setFirstVisit(true);
     }
 
-    return existingUser;
+    return existingUser.setFirstVisit(false);
   }
 
   /**

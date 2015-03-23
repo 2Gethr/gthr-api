@@ -6,10 +6,10 @@ Everything is done through OAuth.
 
 ### Users
 
-| Name          | Description              | Type                 |
-|---------------|--------------------------|----------------------|
-| user          | Google user              | User (appengine)     |
-| subscriptions | Locations subscriptions  | List of locations id |
+| Name          | Description             | Type                 |
+|---------------|-------------------------|----------------------|
+| user          | Google user             | User (appengine)     |
+| subscriptions | Locations subscriptions | List of locations id |
 
 #### Get an user
 
@@ -64,6 +64,10 @@ Start local server :
 You can acces the local API explorer here :
 
 http://localhost:9090/_ah/api/explorer
+
+Hot-reload is available too :
+
+`mvn package`
 
 And local Datastore here :
 
