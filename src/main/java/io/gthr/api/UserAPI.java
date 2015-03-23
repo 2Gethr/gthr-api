@@ -9,9 +9,9 @@ import com.google.appengine.api.users.User;
 
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
-import com.google.api.server.spi.config.ApiMethod.HttpMethod;
-import com.google.api.server.spi.response.UnauthorizedException;
+import com.google.appengine.api.oauth.OAuthRequestException;
 import com.google.api.server.spi.response.NotFoundException;
+import com.google.api.server.spi.config.ApiMethod.HttpMethod;
 
 @Api(
   name = "gthr",
@@ -20,6 +20,7 @@ import com.google.api.server.spi.response.NotFoundException;
   clientIds = {Constants.WEB_CLIENT_ID, com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID}
 )
 public class UserAPI {
+  // @fixme Manage admin access
 
   @ApiMethod(
     name = "users.get",
@@ -29,8 +30,8 @@ public class UserAPI {
   public UserGthr get(
     @Named("id") Long id,
     User user
-  ) throws UnauthorizedException {
-    if (user == null) throw new UnauthorizedException("#loginrequired");
+  ) throws OAuthRequestException {
+    if (user == null) throw new OAuthRequestException("#loginrequired");
 
     return UserRepository.instance().get(id);
   }
@@ -40,8 +41,8 @@ public class UserAPI {
     path = "users",
     httpMethod = HttpMethod.POST
   )
-  public UserGthr create(User user) throws UnauthorizedException {
-    if (user == null) throw new UnauthorizedException("#loginrequired");
+  public UserGthr create(User user) throws OAuthRequestException {
+    if (user == null) throw new OAuthRequestException("#loginrequired");
 
     return UserRepository.instance().create(new UserGthr(user));
   }
@@ -54,8 +55,8 @@ public class UserAPI {
   public UserGthr delete(
     @Named("id") Long id,
     User user
-  ) throws UnauthorizedException {
-    if (user == null) throw new UnauthorizedException("#loginrequired");
+  ) throws OAuthRequestException {
+    if (user == null) throw new OAuthRequestException("#loginrequired");
 
     return UserRepository.instance().delete(id);
   }
@@ -69,8 +70,8 @@ public class UserAPI {
     @Named("id") Long id,
     @Named("locationId") Long locationId,
     User user
-  ) throws UnauthorizedException, NotFoundException {
-    if (user == null) throw new UnauthorizedException("#loginrequired");
+  ) throws OAuthRequestException, NotFoundException {
+    if (user == null) throw new OAuthRequestException("#loginrequired");
 
     return UserRepository.instance().subscribe(id, locationId);
   }
@@ -84,9 +85,11 @@ public class UserAPI {
     @Named("id") Long id,
     @Named("locationId") Long locationId,
     User user
-  ) throws UnauthorizedException {
-    if (user == null) throw new UnauthorizedException("#loginrequired");
+  ) throws OAuthRequestException {
+    if (user == null) throw new OAuthRequestException("#loginrequired");
 
     return UserRepository.instance().unsubscribe(id, locationId);
   }
+
+
 }

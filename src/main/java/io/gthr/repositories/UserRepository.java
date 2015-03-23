@@ -46,7 +46,7 @@ public class UserRepository {
    * @return The created UserGthr
    */
   public UserGthr create(UserGthr user) {
-    UserGthr existingUser = getExistingUser(user.getUser());
+    UserGthr existingUser = getByUser(user.getUser());
 
     if (existingUser == null) {
       ofy().save().entity(user).now();
@@ -57,13 +57,13 @@ public class UserRepository {
   }
 
   /**
-   * Get the existing UserGthr for the authenticated user given
+   * Get an user from the authenticated user
    *
    * @param user The authenticated user
    *
-   * @return The existing UserGthr (or null otherwise)
+   * @return The existing user (or null otherwise)
    */
-  public UserGthr getExistingUser(User user) {
+  public UserGthr getByUser(User user) {
     return ofy().load().type(UserGthr.class).filter("user", user).first().now();
   }
 
