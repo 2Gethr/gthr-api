@@ -1,5 +1,8 @@
 package io.gthr.repositories;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import io.gthr.entities.Location;
 import io.gthr.entities.UserGthr;
 
@@ -79,6 +82,20 @@ public class UserRepository {
     ofy().delete().entity(user);
 
     return user;
+  }
+
+  /**
+   * Retrieve user' subscriptions
+   *
+   * @param user User to get subscriptions from
+   *
+   * @return A collection of locations
+   */
+  public Collection<Location> getSubscriptions(User user) {
+    UserGthr retrievedUser = getByUser(user);
+    ArrayList<Long> locationIds = retrievedUser.getSubscriptions();
+
+    return LocationRepository.instance().listByIds(locationIds);
   }
 
   /**

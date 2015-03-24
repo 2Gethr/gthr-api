@@ -2,6 +2,9 @@ package io.gthr.api;
 
 import javax.inject.Named;
 
+import java.util.Collection;
+
+import io.gthr.entities.Location;
 import io.gthr.entities.UserGthr;
 import io.gthr.repositories.UserRepository;
 
@@ -48,6 +51,17 @@ public class UserAPI {
   }
 
   @ApiMethod(
+    name = "users.subscriptions",
+    path = "users/subscriptions",
+    httpMethod = HttpMethod.POST
+  )
+  public Collection<Location> subscriptions(User user) throws OAuthRequestException {
+    if (user == null) throw new OAuthRequestException("#loginrequired");
+
+    return UserRepository.instance().getSubscriptions(user);
+  }
+
+  @ApiMethod(
     name = "users.delete",
     path = "users/{id}",
     httpMethod = HttpMethod.DELETE
@@ -90,6 +104,4 @@ public class UserAPI {
 
     return UserRepository.instance().unsubscribe(id, locationId);
   }
-
-
 }

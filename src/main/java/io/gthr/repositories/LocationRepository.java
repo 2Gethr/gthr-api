@@ -1,5 +1,9 @@
 package io.gthr.repositories;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
+
 import io.gthr.entities.Location;
 
 import com.googlecode.objectify.ObjectifyService;
@@ -51,6 +55,19 @@ public class LocationRepository {
     ofy().save().entity(location).now();
 
     return location;
+  }
+
+  /**
+   * Get every locations
+   *
+   * @return List of locations
+   */
+  public List<Location> list() {
+    return ofy().load().type(Location.class).list();
+  }
+
+  public Collection<Location> listByIds(ArrayList<Long> ids) {
+    return ofy().load().type(Location.class).ids(ids).values();
   }
 
   /**

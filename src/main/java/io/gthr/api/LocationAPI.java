@@ -1,5 +1,7 @@
 package io.gthr.api;
 
+import java.util.List;
+
 import javax.inject.Named;
 
 import io.gthr.entities.Location;
@@ -49,6 +51,17 @@ public class LocationAPI {
     if (user == null) throw new OAuthRequestException("#loginrequired");
 
     return LocationRepository.instance().create(new Location(name, lng, lat));
+  }
+
+  @ApiMethod(
+    name = "locations.list",
+    path = "locations",
+    httpMethod = HttpMethod.GET
+  )
+  public List<Location> list(User user) throws OAuthRequestException {
+    if (user == null) throw new OAuthRequestException("#loginrequired");
+
+    return LocationRepository.instance().list();
   }
 
   @ApiMethod(
