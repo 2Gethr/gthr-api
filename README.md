@@ -11,25 +11,23 @@ Everything is done through OAuth.
 | user          | Google user             | User (appengine)     |
 | subscriptions | Locations subscriptions | List of locations id |
 
-#### Get an user
-
-`GET /users/{id}`
+Everything is related to the authenticated user. An user cannot manage other users.
 
 #### Create an user
 
 `POST /users`
 
-#### Delete an user
+#### Get user' subscriptions (as Location resources)
 
-`DELETE /users/{id}`
+`GET /users/subscriptions`
 
 #### Subscribe an user to a location
 
-`POST /users/{id}/subscriptions/{locationId}`
+`POST /users/subscriptions/{locationId}`
 
 #### Unsubscribe an user to a location
 
-`DELETE /users/{id}/subscriptions/{locationId}`
+`DELETE /users/subscriptions/{locationId}`
 
 ### Locations
 

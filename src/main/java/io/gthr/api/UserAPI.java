@@ -23,21 +23,6 @@ import com.google.api.server.spi.config.ApiMethod.HttpMethod;
   clientIds = {Constants.WEB_CLIENT_ID, com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID}
 )
 public class UserAPI {
-  // @fixme Manage admin access
-
-  @ApiMethod(
-    name = "users.get",
-    path = "users/{id}",
-    httpMethod = HttpMethod.GET
-  )
-  public UserGthr get(
-    @Named("id") Long id,
-    User user
-  ) throws OAuthRequestException {
-    if (user == null) throw new OAuthRequestException("#loginrequired");
-
-    return UserRepository.instance().get(id);
-  }
 
   @ApiMethod(
     name = "users.create",
@@ -59,20 +44,6 @@ public class UserAPI {
     if (user == null) throw new OAuthRequestException("#loginrequired");
 
     return UserRepository.instance().getSubscriptions(user);
-  }
-
-  @ApiMethod(
-    name = "users.delete",
-    path = "users/{id}",
-    httpMethod = HttpMethod.DELETE
-  )
-  public UserGthr delete(
-    @Named("id") Long id,
-    User user
-  ) throws OAuthRequestException {
-    if (user == null) throw new OAuthRequestException("#loginrequired");
-
-    return UserRepository.instance().delete(id);
   }
 
   @ApiMethod(
