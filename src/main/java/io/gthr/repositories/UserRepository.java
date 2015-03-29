@@ -101,19 +101,18 @@ public class UserRepository {
   /**
    * Subscribe an user to the given location
    *
-   * @param id         User identifier
-   * @param locationId Location's name
+   * @param user       The authenticated user
+   * @param locationId Location's identifier
    *
    * @return The user
    */
-  public UserGthr subscribe(Long id, Long locationId) throws NotFoundException {
+  public UserGthr subscribe(User user, Long locationId) throws NotFoundException {
     Location location = LocationRepository.instance().get(locationId);
+    UserGthr userGthr = getByUser(user);
 
     if (location == null) {
       throw new NotFoundException("No location with id " + locationId);
     }
-
-    UserGthr userGthr = ofy().load().type(UserGthr.class).id(id).now();
 
     // Prevent subscription to locations already subscribed to
     if (userGthr.getSubscriptions().contains(locationId)) {
@@ -129,13 +128,13 @@ public class UserRepository {
   /**
    * Unsubscribe an user to the given location
    *
-   * @param id         User identifier
-   * @param locationId Location's name
+   * @param user       The authenticated user
+   * @param locationId Location's identifier
    *
    * @return The user
    */
-  public UserGthr unsubscribe(Long id, Long locationId) {
-    UserGthr userGthr = ofy().load().type(UserGthr.class).id(id).now();
+  public UserGthr unsubscribe(User user, Long locationId) {
+    UserGthr userGthr = getByUser(user);
     userGthr.getSubscriptions().remove(locationId);
 
     ofy().save().entity(userGthr).now();

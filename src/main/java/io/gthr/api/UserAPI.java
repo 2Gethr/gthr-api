@@ -77,31 +77,29 @@ public class UserAPI {
 
   @ApiMethod(
     name = "users.subscribe",
-    path = "users/{id}/subscriptions/{locationId}",
+    path = "users/subscriptions/{locationId}",
     httpMethod = HttpMethod.POST
   )
   public UserGthr subscribe(
-    @Named("id") Long id,
     @Named("locationId") Long locationId,
     User user
   ) throws OAuthRequestException, NotFoundException {
     if (user == null) throw new OAuthRequestException("#loginrequired");
 
-    return UserRepository.instance().subscribe(id, locationId);
+    return UserRepository.instance().subscribe(user, locationId);
   }
 
   @ApiMethod(
     name = "users.unsubscribe",
-    path = "users/{id}/subscriptions/{locationId}",
+    path = "users/subscriptions/{locationId}",
     httpMethod = HttpMethod.DELETE
   )
   public UserGthr unsubscribe(
-    @Named("id") Long id,
     @Named("locationId") Long locationId,
     User user
   ) throws OAuthRequestException {
     if (user == null) throw new OAuthRequestException("#loginrequired");
 
-    return UserRepository.instance().unsubscribe(id, locationId);
+    return UserRepository.instance().unsubscribe(user, locationId);
   }
 }
