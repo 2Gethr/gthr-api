@@ -7,6 +7,10 @@
     <param-value>io.gthr.api.UserAPI,io.gthr.api.LocationAPI</param-value>
   </init-param>
 </servlet>
+<servlet>
+  <servlet-name>Notification</servlet-name>
+  <servlet-class>io.gthr.services.Notification</servlet-class>
+</servlet>
 <welcome-file-list>
   <welcome-file>index.html</welcome-file>
 </welcome-file-list>
@@ -21,5 +25,8 @@
 <servlet-mapping>
   <servlet-name>SystemServiceServlet</servlet-name>
   <url-pattern>/_ah/spi/*</url-pattern>
+</servlet-mapping>
+<servlet-mapping><servlet-name>MyServletName</servlet-name>
+    <url-pattern>/index2.html</url-pattern>
 </servlet-mapping>
 </web-app>
