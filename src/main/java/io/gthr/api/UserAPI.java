@@ -2,14 +2,19 @@ package io.gthr.api;
 
 import javax.inject.Named;
 
+import java.util.Collection;
+
+import io.gthr.entities.Location;
 import io.gthr.entities.UserGthr;
 import io.gthr.repositories.UserRepository;
 
 import com.google.appengine.api.users.User;
+
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
+import com.google.appengine.api.oauth.OAuthRequestException;
+import com.google.api.server.spi.response.NotFoundException;
 import com.google.api.server.spi.config.ApiMethod.HttpMethod;
-import com.google.api.server.spi.response.UnauthorizedException;
 
 @Api(
   name = "gthr",
@@ -20,71 +25,52 @@ import com.google.api.server.spi.response.UnauthorizedException;
 public class UserAPI {
 
   @ApiMethod(
-    name = "users.get",
-    path = "users/{id}",
-    httpMethod = HttpMethod.GET
-  )
-  public UserGthr get(
-    @Named("id") Long id,
-    User user
-  ) throws UnauthorizedException {
-    if (user == null) throw new UnauthorizedException("#loginrequired");
-
-    return UserRepository.instance().get(id);
-  }
-
-  @ApiMethod(
     name = "users.create",
     path = "users",
     httpMethod = HttpMethod.POST
   )
-  public UserGthr create(User user) throws UnauthorizedException {
-    if (user == null) throw new UnauthorizedException("#loginrequired");
+  public UserGthr create(User user) throws OAuthRequestException {
+    if (user == null) throw new OAuthRequestException("#loginrequired");
 
     return UserRepository.instance().create(new UserGthr(user));
   }
 
   @ApiMethod(
-    name = "users.delete",
-    path = "users/{id}",
-    httpMethod = HttpMethod.DELETE
+    name = "users.subscriptions",
+    path = "users/subscriptions",
+    httpMethod = HttpMethod.POST
   )
-  public UserGthr delete(
-    @Named("id") Long id,
-    User user
-  ) throws UnauthorizedException {
-    if (user == null) throw new UnauthorizedException("#loginrequired");
+  public Collection<Location> subscriptions(User user) throws OAuthRequestException {
+    if (user == null) throw new OAuthRequestException("#loginrequired");
 
-    return UserRepository.instance().delete(id);
+    return UserRepository.instance().getSubscriptions(user);
   }
 
   @ApiMethod(
     name = "users.subscribe",
-    path = "users/{id}/subscriptions/{locationId}",
+    path = "users/subscriptions/{locationId}",
     httpMethod = HttpMethod.POST
   )
   public UserGthr subscribe(
-    @Named("id") Long id,
     @Named("locationId") Long locationId,
     User user
-  ) throws UnauthorizedException {
-    if (user == null) throw new UnauthorizedException("#loginrequired");
+  ) throws OAuthRequestException, NotFoundException {
+    if (user == null) throw new OAuthRequestException("#loginrequired");
 
-    return UserRepository.instance().subscribe(id, locationId);
+    return UserRepository.instance().subscribe(user, locationId);
   }
 
   @ApiMethod(
     name = "users.unsubscribe",
-    path = "users/{id}/subscriptions/{locationId}",
+    path = "users/subscriptions/{locationId}",
     httpMethod = HttpMethod.DELETE
   )
   public UserGthr unsubscribe(
-    @Named("id") Long id,
     @Named("locationId") Long locationId,
     User user
-  ) throws UnauthorizedException {
-    if (user == null) throw new UnauthorizedException("#loginrequired");
+  ) throws OAuthRequestException {
+    if (user == null) throw new OAuthRequestException("#loginrequired");
 
-    return UserRepository.instance().unsubscribe(id, locationId);
+    return UserRepository.instance().unsubscribe(user, locationId);
   }
 }

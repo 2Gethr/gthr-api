@@ -6,30 +6,28 @@ Everything is done through OAuth.
 
 ### Users
 
-| Name          | Description              | Type                 |
-|---------------|--------------------------|----------------------|
-| user          | Google user              | User (appengine)     |
-| subscriptions | Locations subscriptions  | List of locations id |
+| Name          | Description             | Type                 |
+|---------------|-------------------------|----------------------|
+| user          | Google user             | User (appengine)     |
+| subscriptions | Locations subscriptions | List of locations id |
 
-#### Get an user
-
-`GET /users/{id}`
+Everything is related to the authenticated user. An user cannot manage other users.
 
 #### Create an user
 
 `POST /users`
 
-#### Delete an user
+#### Get user' subscriptions (as Location resources)
 
-`DELETE /users/{id}`
+`GET /users/subscriptions`
 
 #### Subscribe an user to a location
 
-`POST /users/{id}/subscriptions/{locationId}`
+`POST /users/subscriptions/{locationId}`
 
 #### Unsubscribe an user to a location
 
-`DELETE /users/{id}/subscriptions/{locationId}`
+`DELETE /users/subscriptions/{locationId}`
 
 ### Locations
 
@@ -65,8 +63,16 @@ You can acces the local API explorer here :
 
 http://localhost:9090/_ah/api/explorer
 
+Hot-reload is available too :
+
+`mvn package`
+
 And local Datastore here :
 
 http://localhost:9090/_ah/admin
+
+To deploy on App Engine :
+
+`mvn appengine:update`
 
 Enjoy ! :dancers:

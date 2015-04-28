@@ -1,8 +1,13 @@
 package io.gthr.repositories;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import io.gthr.entities.Location;
 import io.gthr.entities.UserGthr;
 
 import com.google.appengine.api.users.User;
+import com.google.api.server.spi.response.NotFoundException;
 
 import com.googlecode.objectify.ObjectifyService;
 import static com.googlecode.objectify.ObjectifyService.ofy;
@@ -44,24 +49,24 @@ public class UserRepository {
    * @return The created UserGthr
    */
   public UserGthr create(UserGthr user) {
-    UserGthr existingUser = getExistingUser(user.getUser());
+    UserGthr existingUser = getByUser(user.getUser());
 
     if (existingUser == null) {
       ofy().save().entity(user).now();
-      return user;
+      return user.setFirstVisit(true);
     }
 
-    return existingUser;
+    return existingUser.setFirstVisit(false);
   }
 
   /**
-   * Get the existing UserGthr for the authenticated user given
+   * Get an user from the authenticated user
    *
    * @param user The authenticated user
    *
-   * @return The existing UserGthr (or null otherwise)
+   * @return The existing user (or null otherwise)
    */
-  public UserGthr getExistingUser(User user) {
+  public UserGthr getByUser(User user) {
     return ofy().load().type(UserGthr.class).filter("user", user).first().now();
   }
 
@@ -80,19 +85,41 @@ public class UserRepository {
   }
 
   /**
+   * Retrieve user' subscriptions
+   *
+   * @param user User to get subscriptions from
+   *
+   * @return A collection of locations
+   */
+  public Collection<Location> getSubscriptions(User user) {
+    UserGthr retrievedUser = getByUser(user);
+    ArrayList<Long> locationIds = retrievedUser.getSubscriptions();
+
+    return LocationRepository.instance().listByIds(locationIds);
+  }
+
+  /**
    * Subscribe an user to the given location
    *
-   * @param id         User identifier
-   * @param locationId Location's name
+   * @param user       The authenticated user
+   * @param locationId Location's identifier
    *
    * @return The user
    */
-  public UserGthr subscribe(Long id, Long locationId) {
-    // @todo Check if locationId refers to an actual location
-    // @todo Prevent subscription to locations already subscribed to
-    UserGthr userGthr = ofy().load().type(UserGthr.class).id(id).now();
-    userGthr.getSubscriptions().add(locationId);
+  public UserGthr subscribe(User user, Long locationId) throws NotFoundException {
+    Location location = LocationRepository.instance().get(locationId);
+    UserGthr userGthr = getByUser(user);
 
+    if (location == null) {
+      throw new NotFoundException("No location with id " + locationId);
+    }
+
+    // Prevent subscription to locations already subscribed to
+    if (userGthr.getSubscriptions().contains(locationId)) {
+      return userGthr;
+    }
+
+    userGthr.getSubscriptions().add(locationId);
     ofy().save().entity(userGthr).now();
 
     return userGthr;
@@ -101,13 +128,13 @@ public class UserRepository {
   /**
    * Unsubscribe an user to the given location
    *
-   * @param id         User identifier
-   * @param locationId Location's name
+   * @param user       The authenticated user
+   * @param locationId Location's identifier
    *
    * @return The user
    */
-  public UserGthr unsubscribe(Long id, Long locationId) {
-    UserGthr userGthr = ofy().load().type(UserGthr.class).id(id).now();
+  public UserGthr unsubscribe(User user, Long locationId) {
+    UserGthr userGthr = getByUser(user);
     userGthr.getSubscriptions().remove(locationId);
 
     ofy().save().entity(userGthr).now();
