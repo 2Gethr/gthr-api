@@ -2,6 +2,7 @@ package io.gthr.api;
 
 import javax.inject.Named;
 
+import java.util.List;
 import java.util.Collection;
 
 import io.gthr.entities.Location;
@@ -23,6 +24,17 @@ import com.google.api.server.spi.config.ApiMethod.HttpMethod;
   clientIds = {Constants.WEB_CLIENT_ID, com.google.api.server.spi.Constant.API_EXPLORER_CLIENT_ID}
 )
 public class UserAPI {
+
+  @ApiMethod(
+    name = "users.list",
+    path = "users",
+    httpMethod = HttpMethod.GET
+  )
+  public List<UserGthr> list(User user) throws OAuthRequestException {
+    if (user == null) throw new OAuthRequestException("#loginrequired");
+
+    return UserRepository.instance().list();
+  }
 
   @ApiMethod(
     name = "users.create",

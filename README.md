@@ -14,6 +14,10 @@ Everything is done through OAuth.
 
 Everything is related to the authenticated user. An user cannot manage other users.
 
+#### List users
+
+`GET /users`
+
 #### Create an user
 
 `POST /users`

@@ -2,6 +2,7 @@ package io.gthr.repositories;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import io.gthr.entities.Location;
 import io.gthr.entities.UserGthr;
@@ -39,6 +40,15 @@ public class UserRepository {
    */
   public UserGthr get(Long id) {
     return ofy().load().type(UserGthr.class).id(id).now();
+  }
+
+  /**
+   * Get every users
+   *
+   * @return List of users
+   */
+  public List<UserGthr> list() {
+    return ofy().load().type(UserGthr.class).list();
   }
 
   /**
