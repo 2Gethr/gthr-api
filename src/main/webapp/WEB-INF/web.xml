@@ -11,6 +11,10 @@
   <servlet-name>Notification</servlet-name>
   <servlet-class>io.gthr.services.Notification</servlet-class>
 </servlet>
+<servlet>
+  <servlet-name>AskEvent</servlet-name>
+  <servlet-class>io.gthr.services.event.AskEvent</servlet-class>
+</servlet>
 <welcome-file-list>
   <welcome-file>index.html</welcome-file>
 </welcome-file-list>
@@ -29,5 +33,9 @@
 <servlet-mapping>
     <servlet-name>Notification</servlet-name>
     <url-pattern>/index2.html</url-pattern>
+</servlet-mapping>
+<servlet-mapping>
+    <servlet-name>AskEvent</servlet-name>
+    <url-pattern>/event/ask.html</url-pattern>
 </servlet-mapping>
 </web-app>
