@@ -8,6 +8,7 @@ Everything is done through OAuth.
 
 | Name          | Description             | Type                 |
 |---------------|-------------------------|----------------------|
+| id            | Identifier              | Long                 |
 | user          | Google user             | User (appengine)     |
 | subscriptions | Locations subscriptions | List of locations id |
 
@@ -33,13 +34,18 @@ Everything is related to the authenticated user. An user cannot manage other use
 
 | Name          | Description   | Type   |
 |---------------|---------------|--------|
-| name          | name          | String |
+| id            | Identifier    | Long   |
+| name          | Name          | String |
 | lng           | Longitude     | Double |
 | lat           | Latitude      | Double |
 
 #### Get a location
 
 `GET /locations/{id}`
+
+#### List locations
+
+`GET /locations`
 
 #### Create a location
 
@@ -48,6 +54,26 @@ Everything is related to the authenticated user. An user cannot manage other use
 #### Delete a location
 
 `DELETE /locations/{id}`
+
+### Events
+
+| Name          | Description             | Type                 |
+|---------------|-------------------------|----------------------|
+| id            | Identifier              | Long                 |
+| location      | Location's id           | Long                 |
+| participants  | Participants' id        | List of user id      |
+
+#### Create an event
+
+`POST /events`
+
+#### Get an event
+
+`GET /events/{id}`
+
+#### List events
+
+`GET /events`
 
 ## Development
 
@@ -67,7 +93,7 @@ Hot-reload is available too :
 
 `mvn package`
 
-And local Datastore here :
+And local Datastore is here :
 
 http://localhost:9090/_ah/admin
 
@@ -75,4 +101,4 @@ To deploy on App Engine :
 
 `mvn appengine:update`
 
-Enjoy ! :dancers:
+Enjoy! :dancers:
