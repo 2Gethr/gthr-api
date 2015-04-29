@@ -35,7 +35,7 @@ public class Notification extends HttpServlet
 		
 		String date = dateFormat.format(event.getDate());
 
-    String text = "Rendez-vous à la location '" + location + " le " + date + " !\n\nLet's play 2Gethr !";
+    String text = "Rendez-vous au lieu '" + location + " le " + date + " !\n\nLet's play 2Gethr !";
     
     try 
     {
@@ -79,7 +79,8 @@ public class Notification extends HttpServlet
 		resp.getWriter().println(dateFormat.format(borderDate));
 	
 	  List<Event> events = EventRepository.instance().list();
-	 
+	  
+	  resp.getWriter().println("Events : ");
 	  for(Event event: events)
 	  {
 	    Date eventDate = event.getDate();
@@ -93,18 +94,13 @@ public class Notification extends HttpServlet
           
           for(Long location : locations)
           {
-            if(location == event.getLocation())
+            if(location.longValue() == event.getLocation().longValue())
             {
               Notification not = new Notification();
 		          not.sendNotification(user, event);
 		          
 		          resp.getWriter().println("Notification envoyée à " + user.getUser().getNickname());
             }
-            else
-            {
-              resp.getWriter().println(dateFormat.format(event.getDate()));
-            }
-           
           }
         }
       }
