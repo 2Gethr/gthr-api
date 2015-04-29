@@ -1,6 +1,6 @@
 package io.gthr.services;
 
-import javax.servlet.* ;
+import javax.servlet.http.* ;
 import java.io.* ;
 
 import com.google.appengine.api.users.User;
@@ -14,7 +14,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class Notification extends GenericServlet
+public class Notification extends HttpServlet
 {
   private Properties properties = new Properties();
   private Session session = Session.getDefaultInstance(properties, null);
@@ -25,7 +25,7 @@ public class Notification extends GenericServlet
     not.sendNotification();
   }
   
-  public void sendNotification()
+  public void sendNotification() 
   {
     String text = "Notified";
 
@@ -54,21 +54,13 @@ public class Notification extends GenericServlet
         
   }
   
-  public void service (ServletRequest request, ServletResponse response)
-  {
-    Notification not = new Notification();
-    not.sendNotification();
-    
-    try
-    {
-      PrintWriter out = response.getWriter() ;
-      out.println ("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\">") ;
-      out.println ("<title>Bonjour tout le monde&amp;nbsp;!</title>") ;
-      out.println ("<p>Hello world!</p>") ;
-    }
-    catch (IOException e)
-    {
-      e.printStackTrace() ;
-    }
-  }
+	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
+		resp.setContentType("text/plain");
+		resp.getWriter().println("Hello, world");
+		
+		Notification not = new Notification();
+		not.sendNotification();
+	}
+
 }
