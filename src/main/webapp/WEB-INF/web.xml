@@ -32,7 +32,7 @@
 </servlet-mapping>
 <servlet-mapping>
     <servlet-name>Notification</servlet-name>
-    <url-pattern>/index2.html</url-pattern>
+    <url-pattern>/services/notification.html</url-pattern>
 </servlet-mapping>
 <servlet-mapping>
     <servlet-name>AskEvent</servlet-name>

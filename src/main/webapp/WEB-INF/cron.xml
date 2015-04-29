@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cronentries>
   <cron>
-    <url>/index2.html</url>
+    <url>/services/notification.html</url>
     <description>Notifications Manager - Send notification to users that have subscribed to an incoming event</description>
     <schedule>every 1 hours</schedule>
   </cron>

@@ -100,6 +100,10 @@ public class Notification extends HttpServlet
 		          
 		          resp.getWriter().println("Notification envoyée à " + user.getUser().getNickname());
             }
+            else
+            {
+              resp.getWriter().println(dateFormat.format(event.getDate()));
+            }
            
           }
         }
