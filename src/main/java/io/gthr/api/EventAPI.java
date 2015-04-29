@@ -3,6 +3,7 @@ package io.gthr.api;
 import io.gthr.entities.Event;
 import io.gthr.repositories.EventRepository;
 
+import java.util.Date;
 import java.util.List;
 import javax.inject.Named;
 
@@ -52,11 +53,12 @@ public class EventAPI {
   )
   public Event create(
     @Named("name") String name,
+    @Named("date") Date date,
     @Named("location") Long locationId,
     User user
   ) throws OAuthRequestException {
     if (user == null) throw new OAuthRequestException("#loginrequired");
 
-    return EventRepository.instance().create(new Event(name, locationId));
+    return EventRepository.instance().create(new Event(name, date, locationId));
   }
 }
